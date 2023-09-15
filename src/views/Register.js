@@ -21,7 +21,6 @@ function Register() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [endereco, setEndereco] = useState('');
   const [cep, setCep] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [sexo, setSexo] = useState('');
@@ -48,14 +47,28 @@ function Register() {
         .get(`https://viacep.com.br/ws/${cep}/json/`)
         .then((response) => {
           const { logradouro, bairro, localidade, uf } = response.data;
-          setEndereco(`${logradouro}, ${bairro}, ${localidade} - ${uf}`);
-
-          setEnderecoClasse({
-            logradouro,
-            bairro,
-            localidade,
-            uf,
-          });
+          if (response.data.erro) {
+            setEnderecoClasse({
+              logradouro:null,
+              bairro:null,
+              localidade:null,
+              uf:null,
+            });
+            document.getElementById('logradouro').value = '';
+            document.getElementById('bairro').value = '';
+            document.getElementById('localidade').value = '';
+            document.getElementById('uf').value = '';
+            console.log(enderecoClasse);
+            alert('CEP Inválido!!');
+          } else {
+            setEnderecoClasse({
+              logradouro,
+              bairro,
+              localidade,
+              uf,
+            });
+          }
+          console.log(enderecoClasse);
         })
 
         .catch((error) => {
@@ -85,7 +98,8 @@ function Register() {
     console.log(`Nome: ${nome}`);
     console.log(`E-mail: ${email}`);
     console.log(`Telefone: ${telefone}`);
-    console.log(`Endereço: ${endereco}`);
+    console.log(`Endereço: `);
+    console.log(enderecoClasse);
     console.log(`Data de Nascimento: ${dataNascimento}`);
     console.log(`Sexo: ${sexo}`);
     console.log(`Senha: ${senha}`);
@@ -98,7 +112,13 @@ function Register() {
       pessoa: {
         nome: nome,
         telefone: parseInt(telefone.replace(/[\s()-]/g, '')),
-        endereco: null,
+        endereco: {
+          cep: parseInt(cep.replace(/[\s-]/g, '')),
+          logradouro: enderecoClasse.logradouro,
+          bairro: enderecoClasse.bairro,
+          localidade: enderecoClasse.localidade,
+          uf: enderecoClasse.uf,
+        },
         dataDeNascimento: dataNascimentoFormatada,
         sexo: sexo == "M" ? 1 : 2
       },
@@ -118,7 +138,7 @@ function Register() {
       .post(url, dados, requestOptions)
       .then(() => {
         alert('Usuário Cadastrado!!');
-        window.location.href = '/admin/user-page';
+        window.location.href = '/admin/login';
       })
       .catch((erro) => {
         alert(erro);
@@ -193,23 +213,11 @@ function Register() {
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="8">
-                      <FormGroup>
-                        <label>Endereço</label>
-                        <Input
-                          placeholder="Rua A, Bairro atalaia"
-                          id="endereco"
-                          value={endereco}
-                          onChange={(e) => setEndereco(e.target.value)}
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col md="4">
+                  <Col md="4">
                     <FormGroup>
                         <label>CEP</label>
                         <Input 
-                          placeholder="49000-00"
+                          placeholder="49000-000"
                           type="text"
                           id="cep"
                           value={cep}
@@ -217,6 +225,56 @@ function Register() {
                           onBlur={handleCepChange}
                           maxLength="9"
                           required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md="8">
+                      <FormGroup>
+                        <label>Logradouro</label>
+                        <Input
+                          placeholder="Rua A"
+                          id="logradouro"
+                          value={enderecoClasse.logradouro}
+                          required
+                          disabled
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="pr-1" md="4">
+                      <FormGroup>
+                        <label>Bairro</label>
+                        <Input
+                          placeholder="Farolândia"
+                          id="bairro"
+                          value={enderecoClasse.bairro}
+                          required
+                          disabled
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="4">
+                      <FormGroup>
+                        <label>Localidade</label>
+                        <Input
+                          placeholder="Aracaju"
+                          id="localidade"
+                          value={enderecoClasse.localidade}
+                          required
+                          disabled
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="4">
+                      <FormGroup>
+                      <label>UF</label>
+                      <Input
+                          placeholder="SE"
+                          id="uf"
+                          value={enderecoClasse.uf}
+                          required
+                          disabled
                         />
                       </FormGroup>
                     </Col>
@@ -254,6 +312,7 @@ function Register() {
                         <label>Sexo</label>
                         <select class="form-group form-control"
                           id="sexo"
+                          placeholder='selecione'
                           value={sexo}
                           onChange={(e) => setSexo(e.target.value)}
                           required

@@ -15,7 +15,7 @@ import {
   Col,
 } from "reactstrap";
 
-function User() {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pageTitle] = useState("Controle Financeiro");
@@ -41,6 +41,7 @@ function User() {
     } else {
       // definir o estado de erro em caso de login mal sucedido
       setLoginError(true);
+      document.getElementById('erroLogin').style.display = "block";
     }
   };
   
@@ -100,6 +101,11 @@ function User() {
                   </Row>
                   <Row>
                     <div className="update ml-auto mr-auto">
+                    <small id="erroLogin" style={{display: "none", color: "red"}}>*Dados incorretos</small>
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="update ml-auto mr-auto">
                       <Button
                         className="btn-round"
                         color="primary"
@@ -136,4 +142,4 @@ function User() {
   );
 }
 
-export default User;
+export default Login;
