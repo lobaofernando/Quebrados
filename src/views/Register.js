@@ -1,22 +1,5 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.3.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -26,14 +9,122 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
+  Col,
   FormGroup,
   Form,
   Input,
-  Row,
-  Col,
+  Row
 } from "reactstrap";
 
 function Register() {
+
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [endereco, setEndereco] = useState('');
+  const [cep, setCep] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [sexo, setSexo] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [enderecoClasse, setEnderecoClasse] = useState({
+    logradouro: '',
+    bairro: '',
+    localidade: '',
+    uf: '',
+  });
+
+  const formatarCEP = (cep) => {
+    cep = cep.replace(/\D/g, '');
+    cep = cep.replace(/^(\d{5})(\d)/, '$1-$2');
+    return cep;
+  };
+
+  const handleCepChange = (event) => {
+    const cep = event.target.value;
+
+    if (cep.length === 9) {
+      axios
+        .get(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((response) => {
+          const { logradouro, bairro, localidade, uf } = response.data;
+          setEndereco(`${logradouro}, ${bairro}, ${localidade} - ${uf}`);
+
+          setEnderecoClasse({
+            logradouro,
+            bairro,
+            localidade,
+            uf,
+          });
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const formatarTelefone = (telefone) => {
+    let telFormatado = telefone.replace(/\D/g, '');
+    const regex = /^(\d{2})(\d{5})(\d+)/g;
+    telFormatado = telFormatado.replace(regex, '($1) $2-$3');
+    return telFormatado;
+  };
+
+  const handleTelefoneChange = (event) => {
+    const telefone = event.target.value;
+    setTelefone(formatarTelefone(telefone));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (senha !== confirmarSenha) {
+      alert('As senhas não correspondem!');
+      return;
+    }
+    console.log(`Nome: ${nome}`);
+    console.log(`E-mail: ${email}`);
+    console.log(`Telefone: ${telefone}`);
+    console.log(`Endereço: ${endereco}`);
+    console.log(`Data de Nascimento: ${dataNascimento}`);
+    console.log(`Sexo: ${sexo}`);
+    console.log(`Senha: ${senha}`);
+
+    const dataNascimentoFormatada = new Date(dataNascimento).toISOString();
+    const dados = {
+      name: nome,
+      email: email,
+      password: senha,
+      pessoa: {
+        nome: nome,
+        telefone: parseInt(telefone.replace(/[\s()-]/g, '')),
+        endereco: null,
+        dataDeNascimento: dataNascimentoFormatada,
+        sexo: sexo == "M" ? 1 : 2
+      },
+    };
+
+
+
+    const requestOptions = {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    };
+
+    const url = 'https://artemiswebapi.azurewebsites.net/api/Usuario/v1/register';
+
+    axios
+      .post(url, dados, requestOptions)
+      .then(() => {
+        alert('Usuário Cadastrado!!');
+        window.location.href = '/admin/user-page';
+      })
+      .catch((erro) => {
+        alert(erro);
+      });
+  };
+
   return (
     <>
       <div className="content">
@@ -41,71 +132,91 @@ function Register() {
           <Col md="12">
             <Card className="card-user">
               <CardHeader>
-                <CardTitle tag="h5">Edit Profile</CardTitle>
+                <CardTitle tag="h5">Cadastrar Usuário</CardTitle>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Row>
-                    <Col className="pr-1" md="5">
+                    <Col className="pr-1" md="6">
                       <FormGroup>
-                        <label>Company (disabled)</label>
+                        <label>Nome</label>
                         <Input
-                          defaultValue="Creative Code Inc."
-                          disabled
                           placeholder="Company"
-                          type="text"
+                          type="name"
+                          id="nome"
+                          value={nome}
+                          onChange={(e) => setNome(e.target.value)}
+                          required
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="px-1" md="3">
+                    <Col className="pl-1" md="6">
                       <FormGroup>
-                        <label>Username</label>
+                        <label>E-mail</label>
                         <Input
-                          defaultValue="michael23"
-                          placeholder="Username"
-                          type="text"
+                          placeholder="email"
+                          type="email"
+                          id="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
                         />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="4">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
-                        <Input placeholder="Email" type="email" />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="pr-1" md="6">
                       <FormGroup>
-                        <label>First Name</label>
+                        <label>Senha</label>
                         <Input
-                          defaultValue="Chet"
-                          placeholder="Company"
-                          type="text"
+                          placeholder="********"
+                          type="password"
+                          id="senha"
+                          value={senha}
+                          onChange={(e) => setSenha(e.target.value)}
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="6">
                       <FormGroup>
-                        <label>Last Name</label>
+                        <label>Confirmar Senha</label>
                         <Input
-                          defaultValue="Faker"
-                          placeholder="Last Name"
-                          type="text"
+                          placeholder="********"
+                          type="password"
+                          id="senha"
+                          value={confirmarSenha}
+                          onChange={(e) => setConfirmarSenha(e.target.value)}
+                          required
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="12">
+                    <Col md="8">
                       <FormGroup>
-                        <label>Address</label>
+                        <label>Endereço</label>
                         <Input
-                          defaultValue="Melbourne, Australia"
-                          placeholder="Home Address"
+                          placeholder="Rua A, Bairro atalaia"
+                          id="endereco"
+                          value={endereco}
+                          onChange={(e) => setEndereco(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md="4">
+                    <FormGroup>
+                        <label>CEP</label>
+                        <Input 
+                          placeholder="49000-00"
                           type="text"
+                          id="cep"
+                          value={cep}
+                          onChange={(e) => setCep(formatarCEP(e.target.value))}
+                          onBlur={handleCepChange}
+                          maxLength="9"
+                          required
                         />
                       </FormGroup>
                     </Col>
@@ -113,28 +224,44 @@ function Register() {
                   <Row>
                     <Col className="pr-1" md="4">
                       <FormGroup>
-                        <label>City</label>
+                        <label>Telefone</label>
                         <Input
-                          defaultValue="Melbourne"
-                          placeholder="City"
-                          type="text"
+                          placeholder="(79) 99999-9999"
+                          type="tel"
+                          id="telefone"
+                          value={telefone}
+                          onChange={handleTelefoneChange}
+                          maxLength="15"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="px-1" md="4">
                       <FormGroup>
-                        <label>Country</label>
+                        <label>Data de Nascimento</label>
                         <Input
-                          defaultValue="Australia"
-                          placeholder="Country"
-                          type="text"
+                          placeholder="01/01/2023"
+                          type="date"
+                          id="dataNascimento"
+                          value={dataNascimento}
+                          onChange={(e) => setDataNascimento(e.target.value)}
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="4">
                       <FormGroup>
-                        <label>Postal Code</label>
-                        <Input placeholder="ZIP Code" type="number" />
+                        <label>Sexo</label>
+                        <select class="form-group form-control"
+                          id="sexo"
+                          value={sexo}
+                          onChange={(e) => setSexo(e.target.value)}
+                          required
+                        >
+                          <option value=""></option>
+                          <option value="F">Feminino</option>
+                          <option value="M">Masculino</option>
+                        </select>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -145,7 +272,7 @@ function Register() {
                         color="primary"
                         type="submit"
                       >
-                        Update Profile
+                        Cadastrar
                       </Button>
                     </div>
                   </Row>
