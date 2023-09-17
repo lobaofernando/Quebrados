@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // reactstrap components
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
-  CardTitle,
   FormGroup,
   Form,
   Input,
@@ -18,9 +16,7 @@ import {
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [pageTitle] = useState("Controle Financeiro");
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [loginError, setLoginError] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,7 +36,6 @@ function Login() {
       window.location.href = '/admin/dashboard';
     } else {
       // definir o estado de erro em caso de login mal sucedido
-      setLoginError(true);
       document.getElementById('erroLogin').style.display = "block";
     }
   };

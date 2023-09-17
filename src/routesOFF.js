@@ -1,27 +1,18 @@
-import Dashboard from "views/Dashboard.js";
-import Notifications from "views/Notifications.js";
-import Icons from "views/Icons.js";
-import Typography from "views/Typography.js";
-import TableList from "views/Tables.js";
-import Maps from "views/Map.js";
 import Login from "views/Login.js";
-import Logoff from "views/Logoff";
-import Register from "views/Register.js";
-import { useAuth } from 'Auth.js';
 
 var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
     icon: "nc-icon nc-bank",
-    component: <Dashboard />,
+    component: <Login />,
     layout: "/admin",
   },
   {
     path: "/icons",
     name: "Icons",
     icon: "nc-icon nc-diamond",
-    component: <Icons />,
+    component: <Login />,
     layout: "/admin",
   },
   // {
@@ -49,14 +40,14 @@ var routes = [
     path: "/user-register",
     name: "Register",
     icon: "nc-icon nc-single-02",
-    component: <Register />,
+    component: <Login />,
     layout: "/admin",
   },
   {
     path: "/tables",
     name: "Table List",
     icon: "nc-icon nc-tile-56",
-    component: <TableList />,
+    component: <Login />,
     layout: "/admin",
   },
   // {
@@ -68,10 +59,10 @@ var routes = [
   // },
   {
     pro: true,
-    path: "/logoff",
+    path: "/upgrade",
     name: "Logoff",
     icon: "nc-icon nc-spaceship",
-    component: <Logoff />,
+    component: <Login />,
     layout: "/admin",
   },
 ];
