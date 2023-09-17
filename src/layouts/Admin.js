@@ -8,10 +8,12 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import { useAuth } from '../auth.js';
 
 var ps;
 
 function Dashboard(props) {
+  const { isAuthenticated, logout } = useAuth();
   const [backgroundColor, setBackgroundColor] = React.useState("black");
   const [activeColor, setActiveColor] = React.useState("info");
   const mainPanel = React.useRef();
@@ -48,6 +50,7 @@ function Dashboard(props) {
       />
       <div className="main-panel" ref={mainPanel}>
         <DemoNavbar {...props} />
+        { }
         <Routes>
           {routes.map((prop, key) => {
             return (

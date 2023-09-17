@@ -5,7 +5,7 @@ import Typography from "views/Typography.js";
 import TableList from "views/Tables.js";
 import Maps from "views/Map.js";
 import UserPage from "views/Login.js";
-import UpgradeToPro from "views/Upgrade.js";
+import Logoff from "views/Logoff";
 import Register from "views/Register.js";
 
 var routes = [
@@ -70,7 +70,7 @@ var routes = [
     path: "/upgrade",
     name: "Logoff",
     icon: "nc-icon nc-spaceship",
-    component: <UpgradeToPro />,
+    component: <Logoff />,
     layout: "/admin",
   },
 ];

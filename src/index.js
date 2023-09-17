@@ -10,6 +10,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import AdminLayout from "layouts/Admin.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 root.render(
   <BrowserRouter>
