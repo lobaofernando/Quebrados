@@ -54,7 +54,7 @@ var routes = [
   },
   {
     path: "/tables",
-    name: "Table List",
+    name: "Extrato",
     icon: "nc-icon nc-tile-56",
     component: <TableList />,
     layout: "/admin",
