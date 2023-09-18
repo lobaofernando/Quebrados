@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -14,6 +15,7 @@ import {
 } from "reactstrap";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -33,7 +35,8 @@ function Login() {
       localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
       localStorage.setItem('refreshToken', data.refreshToken)
       // redirecionar para a tela desejada em caso de login bem sucedido
-      window.location.href = '/admin/dashboard';
+      //window.location.href = '/admin/dashboard';
+      navigate('/admin/dashboard')
     } else {
       // definir o estado de erro em caso de login mal sucedido
       document.getElementById('erroLogin').style.display = "block";
