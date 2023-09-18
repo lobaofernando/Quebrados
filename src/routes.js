@@ -7,7 +7,6 @@ import Maps from "views/Map.js";
 import Login from "views/Login.js";
 import Logoff from "views/Logoff";
 import Register from "views/Register.js";
-import { useAuth } from 'Auth.js';
 
 var routes = [
   {
