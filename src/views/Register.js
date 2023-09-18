@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 // reactstrap components
@@ -18,6 +19,7 @@ import {
 
 function Register() {
 
+  const navigate = useNavigate();
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -138,7 +140,7 @@ function Register() {
       .post(url, dados, requestOptions)
       .then(() => {
         alert('Usuário Cadastrado!!');
-        window.location.href = '/admin/login';
+        navigate('/admin/login');
       })
       .catch((erro) => {
         alert(erro);

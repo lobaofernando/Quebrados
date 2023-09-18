@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -14,6 +15,7 @@ import {
 
 function Logoff() {
 
+  const navigate = useNavigate();
   const handleLogoff = (event) => {
 
     console.log(localStorage);
@@ -22,9 +24,8 @@ function Logoff() {
     localStorage.removeItem('accessTokenExpiration')
     localStorage.removeItem('refreshToken')
     // redirecionar para a tela desejada em caso de login bem sucedido
-    window.location.href = '/admin/login';
-    
     console.log(localStorage); 
+    navigate('/admin/login');
   };
 
   return (

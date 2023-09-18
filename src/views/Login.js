@@ -31,12 +31,12 @@ function Login() {
     });
     if (response.ok) {
       const data = await response.json();
-      localStorage.setItem('accessToken', data.accessToken)
-      localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
-      localStorage.setItem('refreshToken', data.refreshToken)
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration);
+      localStorage.setItem('refreshToken', data.refreshToken);
       // redirecionar para a tela desejada em caso de login bem sucedido
       //window.location.href = '/admin/dashboard';
-      navigate('/admin/dashboard')
+      navigate('/admin/dashboard');
     } else {
       // definir o estado de erro em caso de login mal sucedido
       document.getElementById('erroLogin').style.display = "block";
