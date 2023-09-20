@@ -1,18 +1,21 @@
-import React from "react";
-// react plugin used to create charts
+import React, { useState } from "react";
+import Tabela from "components/Tabela/Tabela.js";
 import { Line, Pie } from "react-chartjs-2";
 // reactstrap components
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
   CardTitle,
-  Table,
-  Row,
   Col,
-  Button,
+  FormGroup,
+  Input,
+  Row,
+  Table,
 } from "reactstrap";
+
 
 // core components
 import {
@@ -22,6 +25,16 @@ import {
 } from "variables/charts.js";
 
 function Dashboard() {
+
+  const [renderizarNovoComponente, setRenderizarNovoComponente] = useState(false);
+
+  const handleClick = () => {
+    if (renderizarNovoComponente) {
+      setRenderizarNovoComponente(false);
+    } else {
+      setRenderizarNovoComponente(true);
+    }
+  };
 
   return (
     <>
@@ -48,7 +61,6 @@ function Dashboard() {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  
                 </div>
               </CardFooter>
             </Card>
@@ -164,7 +176,51 @@ function Dashboard() {
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">Entradas</CardTitle>
-                <Button>+</Button>
+                <Button onClick={handleClick}>+</Button>
+                {renderizarNovoComponente &&                   <Row>
+                    <Col className="pr-1" md="4">
+                      <FormGroup>
+                        <label>Descrição</label>
+                        <Input
+                          type="text"
+                          id="descricao"
+                          // value={telefone}
+                          // onChange={handleTelefoneChange}
+                          maxLength="35"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="4">
+                      <FormGroup>
+                        <label>Valor</label>
+                        <Input
+                          placeholder="R$ 50,00"
+                          type="number"
+                          id="valor"
+                          // value={dataNascimento}
+                          // onChange={(e) => setDataNascimento(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="4">
+                      <FormGroup>
+                        <label>Categoria</label>
+                        <select class="form-group form-control"
+                          id="categoria"
+                          placeholder='selecione'
+                          // value={sexo}
+                          // onChange={(e) => setSexo(e.target.value)}
+                          required
+                        >
+                          <option value=""></option>
+                          <option value="1">teste</option>
+                          <option value="2">teste2</option>
+                        </select>
+                      </FormGroup>
+                    </Col>
+                  </Row>}
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -222,7 +278,7 @@ function Dashboard() {
               </CardBody>
             </Card>
           </Col>
-          <Col md="6">
+          {/* <Col md="6">
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">Saídas</CardTitle>
@@ -283,7 +339,8 @@ function Dashboard() {
                 </Table>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
+          <Tabela></Tabela>
         </Row>
       </div>
     </>
