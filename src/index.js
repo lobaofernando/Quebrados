@@ -15,9 +15,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/admin/*" element={<AdminLayout />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/Login" element={<Login />} />
-      <Route path="/" element={<Navigate to="/admin/login" replace />} />
+      <Route path="/admin/*" element={<AdminLayout />} />
+      
     </Routes>
   </BrowserRouter>
 );
