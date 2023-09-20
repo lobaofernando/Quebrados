@@ -3,17 +3,20 @@ import GridItem from "components/GridItem/GridItem";
 
 // reactstrap components
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
-  Table,
-  Row,
   Col,
-  Button,
+  FormGroup,
+  Input,
+  Row,
+  Table,
 } from "reactstrap";
+import Inserir from 'components/Inserir/Inserir';
 
-function Tabela() {
+function Tabela(props) {
   const [itens, setItens] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -31,7 +34,7 @@ function Tabela() {
         };
 
         const response = await fetch(
-          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?pagina=${currentPage}`,
+          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?tipo=${props.tipo}&pagina=${currentPage}`,
           { headers }
         );
         const data = await response.json();
@@ -55,35 +58,50 @@ function Tabela() {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  const [renderizarCadastro, setRenderizarCadastro] = useState(false);
+
+  const handleClick = () => {
+    if (renderizarCadastro) {
+      setRenderizarCadastro(false);
+    } else {
+      setRenderizarCadastro(true);
+    }
+  };
+
   return (
     <>
-          <Col md="6">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Table responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Descrição</th>
-                      <th>Categoria</th>
-                      <th className="text-center">Tipo</th>
-                      <th className="text-center">Valor</th>
-                      <th className="text-center">Excluir</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {itens?.map((item, index) => (
-                      <GridItem key={index} item={item} />
-                    ))}
-                  </tbody>
+        <Col md="6">
+          <Card>
+          <CardHeader>
+            {props.tipo==1 ? <CardTitle tag="h4">Entradas</CardTitle> : <CardTitle tag="h4">Saídas</CardTitle>}
+            <Inserir/>
+            </CardHeader>
+            <CardBody>
+              <div style={{minHeight:"400px"}}>
+              <Table responsive>
+                <thead className="text-primary">
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th className="text-center">Tipo</th>
+                    <th className="text-center">Valor</th>
+                    <th className="text-center">Excluir</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {itens?.map((item, index) => (
+                    <GridItem key={index} item={item} />
+                  ))}
+                </tbody>
+              </Table>
+              </div>
+                <div>
                   <Button onClick={goToPreviousPage}>Anterior</Button>
                   <Button onClick={goToNextPage}>Próxima</Button>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
+                </div>
+            </CardBody>
+          </Card>
+        </Col>
     </>
   );
 }
