@@ -23,6 +23,8 @@ import {
   dashboardEmailStatisticsChart,
   dashboardNASDAQChart,
 } from "variables/charts.js";
+import GastosPorCategoriaCard from "components/Gráficos/GastosPorCategoriaCard";
+import BalancoCard from "components/Gráficos/BalançoEntradaSaida";
 
 function Dashboard() {
 
@@ -61,7 +63,7 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="green" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{color: "green"}}>
+                      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="green" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{ color: "green" }}>
                         <path d="M256 504c137 0 248-111 248-248S393 8 256 8 8 119 8 256s111 248 248 248zm0-448c110.5 0 200 89.5 200 200s-89.5 200-200 200S56 366.5 56 256 145.5 56 256 56zm20 328h-40c-6.6 0-12-5.4-12-12V256h-67c-10.7 0-16-12.9-8.5-20.5l99-99c4.7-4.7 12.3-4.7 17 0l99 99c7.6 7.6 2.2 20.5-8.5 20.5h-67v116c0 6.6-5.4 12-12 12z"></path>
                       </svg>
                     </div>
@@ -88,7 +90,7 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="red" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{color: "red"}}>
+                      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="red" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{ color: "red" }}>
                         <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm-32-316v116h-67c-10.7 0-16 12.9-8.5 20.5l99 99c4.7 4.7 12.3 4.7 17 0l99-99c7.6-7.6 2.2-20.5-8.5-20.5h-67V140c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12z"></path>
                       </svg>
                     </div>
@@ -112,53 +114,10 @@ function Dashboard() {
         </Row>
         <Row>
           <Col md="4">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h5">Gastos por categoria</CardTitle>
-                <p className="card-category">Últimos 30 dias</p>
-              </CardHeader>
-              <CardBody style={{ height: "266px" }}>
-                <Pie
-                  data={dashboardEmailStatisticsChart.data}
-                  options={dashboardEmailStatisticsChart.options}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Comida{" "}
-                  <i className="fa fa-circle text-warning" /> Aluguel{" "}
-                  <i className="fa fa-circle text-danger" /> Lazer{" "}
-                  <i className="fa fa-circle text-gray" /> Educação
-                </div>
-                <hr />
-                <div className="stats">
-                </div>
-              </CardFooter>
-            </Card>
+            <GastosPorCategoriaCard></GastosPorCategoriaCard>
           </Col>
           <Col md="8">
-            <Card className="card-chart">
-              <CardHeader>
-                <CardTitle tag="h5">Balanço</CardTitle>
-                <p className="card-category">Balanço de Entradas e saídas nos últimos 30 dias</p>
-              </CardHeader>
-              <CardBody>
-                <Line
-                  data={dashboardNASDAQChart.data}
-                  options={dashboardNASDAQChart.options}
-                  width={400}
-                  height={100}
-                />
-              </CardBody>
-              <CardFooter>
-                <div className="chart-legend">
-                  <i className="fa fa-circle text-info" /> Balanço{" "}
-                </div>
-                <hr />
-                <div className="card-stats">
-                </div>
-              </CardFooter>
-            </Card>
+            <BalancoCard></BalancoCard>
           </Col>
         </Row>
         <Row>
