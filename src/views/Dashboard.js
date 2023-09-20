@@ -33,39 +33,13 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-globe text-warning" />
-                    </div>
-                  </Col>
-                  <Col md="8" xs="7">
-                    <div className="numbers">
-                      <p className="card-category">Capacity</p>
-                      <CardTitle tag="p">150GB</CardTitle>
-                      <p />
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <hr />
-                <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update Now
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-          <Col lg="4" md="6" sm="6">
-            <Card className="card-stats">
-              <CardBody>
-                <Row>
-                  <Col md="4" xs="5">
-                    <div className="icon-big text-center icon-warning">
                       <i className="nc-icon nc-money-coins text-success" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Revenue</p>
-                      <CardTitle tag="p">$ 1,345</CardTitle>
+                      <p className="card-category">Balanço</p>
+                      <CardTitle tag="p">R$ 890,00</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -74,7 +48,7 @@ function Dashboard() {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="far fa-calendar" /> Last day
+                  
                 </div>
               </CardFooter>
             </Card>
@@ -85,13 +59,15 @@ function Dashboard() {
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-vector text-danger" />
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="green" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{color: "green"}}>
+                        <path d="M256 504c137 0 248-111 248-248S393 8 256 8 8 119 8 256s111 248 248 248zm0-448c110.5 0 200 89.5 200 200s-89.5 200-200 200S56 366.5 56 256 145.5 56 256 56zm20 328h-40c-6.6 0-12-5.4-12-12V256h-67c-10.7 0-16-12.9-8.5-20.5l99-99c4.7-4.7 12.3-4.7 17 0l99 99c7.6 7.6 2.2 20.5-8.5 20.5h-67v116c0 6.6-5.4 12-12 12z"></path>
+                      </svg>
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">Errors</p>
-                      <CardTitle tag="p">23</CardTitle>
+                      <p className="card-category">Entradas</p>
+                      <CardTitle tag="p">R$ 3.550,00</CardTitle>
                       <p />
                     </div>
                   </Col>
@@ -100,7 +76,33 @@ function Dashboard() {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="far fa-clock" /> In the last hour
+                </div>
+              </CardFooter>
+            </Card>
+          </Col>
+          <Col lg="4" md="6" sm="6">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="red" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{color: "red"}}>
+                        <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 448c-110.5 0-200-89.5-200-200S145.5 56 256 56s200 89.5 200 200-89.5 200-200 200zm-32-316v116h-67c-10.7 0-16 12.9-8.5 20.5l99 99c4.7 4.7 12.3 4.7 17 0l99-99c7.6-7.6 2.2-20.5-8.5-20.5h-67V140c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12z"></path>
+                      </svg>
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">Saídas</p>
+                      <CardTitle tag="p">R$ 2.660,00</CardTitle>
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <hr />
+                <div className="stats">
                 </div>
               </CardFooter>
             </Card>
@@ -110,8 +112,8 @@ function Dashboard() {
           <Col md="4">
             <Card>
               <CardHeader>
-                <CardTitle tag="h5">Email Statistics</CardTitle>
-                <p className="card-category">Last Campaign Performance</p>
+                <CardTitle tag="h5">Gastos por categoria</CardTitle>
+                <p className="card-category">Últimos 30 dias</p>
               </CardHeader>
               <CardBody style={{ height: "266px" }}>
                 <Pie
@@ -121,14 +123,13 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Opened{" "}
-                  <i className="fa fa-circle text-warning" /> Read{" "}
-                  <i className="fa fa-circle text-danger" /> Deleted{" "}
-                  <i className="fa fa-circle text-gray" /> Unopened
+                  <i className="fa fa-circle text-primary" /> Comida{" "}
+                  <i className="fa fa-circle text-warning" /> Aluguel{" "}
+                  <i className="fa fa-circle text-danger" /> Lazer{" "}
+                  <i className="fa fa-circle text-gray" /> Educação
                 </div>
                 <hr />
                 <div className="stats">
-                  <i className="fa fa-calendar" /> Number of emails sent
                 </div>
               </CardFooter>
             </Card>
@@ -136,8 +137,8 @@ function Dashboard() {
           <Col md="8">
             <Card className="card-chart">
               <CardHeader>
-                <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
-                <p className="card-category">Line Chart with Points</p>
+                <CardTitle tag="h5">Balanço</CardTitle>
+                <p className="card-category">Balanço de Entradas e saídas nos últimos 30 dias</p>
               </CardHeader>
               <CardBody>
                 <Line
@@ -149,12 +150,10 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="chart-legend">
-                  <i className="fa fa-circle text-info" /> Tesla Model S{" "}
-                  <i className="fa fa-circle text-warning" /> BMW 5 Series
+                  <i className="fa fa-circle text-info" /> Balanço{" "}
                 </div>
                 <hr />
                 <div className="card-stats">
-                  <i className="fa fa-check" /> Data information certified
                 </div>
               </CardFooter>
             </Card>
