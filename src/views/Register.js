@@ -163,7 +163,7 @@ function Register() {
                       <FormGroup>
                         <label>Nome</label>
                         <Input
-                          placeholder="Company"
+                          placeholder="maria"
                           type="name"
                           id="nome"
                           value={nome}

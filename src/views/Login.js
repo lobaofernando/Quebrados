@@ -125,7 +125,7 @@ function Login() {
                       </h5>
                     </Col>
                     <Col className="mr-auto" lg="12">
-                      <a href="http://localhost:3000/admin/user-Register">Cadastre-se</a>
+                      <a href="user-Register">Cadastre-se</a>
                     </Col>
                   </Row>
                 </div>
