@@ -51,6 +51,11 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const handleNavigate = (path) => {
+    console.log(path);
+    navigate(path);
+  }
+
   return (
     <>
       <div className="content">
@@ -125,7 +130,7 @@ function Login() {
                       </h5>
                     </Col>
                     <Col className="mr-auto" lg="12">
-                      <a href="user-Register">Cadastre-se</a>
+                      <button onClick={() => handleNavigate("/admin/user-register")}>Cadastre-se</button>
                     </Col>
                   </Row>
                 </div>
