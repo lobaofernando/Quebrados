@@ -20,10 +20,6 @@ function Tabela(props) {
   const [itens, setItens] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const onDelete = (ID) => {
-    // Implemente a lógica de exclusão do item com o ID fornecido
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,16 +52,6 @@ function Tabela(props) {
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const [renderizarCadastro, setRenderizarCadastro] = useState(false);
-
-  const handleClick = () => {
-    if (renderizarCadastro) {
-      setRenderizarCadastro(false);
-    } else {
-      setRenderizarCadastro(true);
-    }
   };
 
   return (

@@ -52,6 +52,8 @@ function Inserir(props) {
   const [renderizarCadastro, setRenderizarCadastro] = useState(false);
 
   const handleClick = () => {
+    setDescricao(null);
+    setValor(null);
     if (renderizarCadastro) {
       setRenderizarCadastro(false);
     } else {
@@ -61,21 +63,31 @@ function Inserir(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (categoria == '') {
+    if (categoria == '' && props.tipo==2) {
       alert('Selecione uma categoria!');
       return;
     }
+    
+    if (valor==null || descricao==null) {
+      alert('Preencha todos os dados!');
+      return;
+    }
+
     console.log(`decrição: ${descricao}`);
     console.log(`categoria: ${categoria}`);
     console.log(`valor: ${valor}`);
     console.log(`tipo: ${props.tipo}`);
 
-    const dados = {
+    var dados = {
       nome: descricao,
       categoriaId: categoria,
       valor: parseFloat(valor),
       tipo: props.tipo,
     };
+
+    if (categoria=="") {
+      dados["categoriaId"] = null;
+    }
 
     const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
     const requestOptions = {
@@ -92,6 +104,7 @@ function Inserir(props) {
       .post(url, dados, requestOptions)
       .then(() => {
         alert('Transação registrada!!');
+        setRenderizarCadastro(false);
       })
       .catch((erro) => {
         alert(erro);
@@ -100,53 +113,57 @@ function Inserir(props) {
 
   return (
     <>
-      <Button onClick={handleClick}>+</Button>
+      {!renderizarCadastro && <Button onClick={handleClick}>+</Button>}
+      
       {renderizarCadastro && 
       <Row>
-          <Col className="pr-1" md="4">
-            <FormGroup>
-              <label>Descrição</label>
-              <Input
-                type="text"
-                id="descricao"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
-                maxLength="35"
-                required
-              />
-            </FormGroup>
-          </Col>
-          <Col className="px-1" md="4">
-            <FormGroup>
-              <label>Valor</label>
-              <Input
-                placeholder="R$ 50,00"
-                type="currency"
-                id="valor"
-                value={valor}
-                onChange={(e) => setValor(e.target.value)}
-                required
-              />
-            </FormGroup>
-          </Col>
-          <Col className="pl-1" md="4">
-            <FormGroup>
-              <label>Categoria</label>
-              <select class="form-group form-control"
-                id="categoria"
-                placeholder='selecione'
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                required
-              >
-                <option value=""></option>
-                {categorias?.map((item, index) => (
-                    <option value={item.id}>{item.nome}</option>
-                    ))}
-              </select>
-            </FormGroup>
-          </Col>
+        <Col className="pr-1" md="4">
+          <FormGroup>
+            <label>Descrição</label>
+            <Input
+              type="text"
+              id="descricao"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              maxLength="35"
+              required
+            />
+          </FormGroup>
+        </Col>
+        <Col className="px-1" md="4">
+          <FormGroup>
+            <label>Valor</label>
+            <Input
+              placeholder="R$ 50,00"
+              type="currency"
+              id="valor"
+              value={valor}
+              onChange={(e) => setValor(e.target.value)}
+              required
+            />
+          </FormGroup>
+        </Col>
+        <Col className="pl-1" md="4">
+          <FormGroup>
+            <label>Categoria</label>
+            <select class="form-group form-control"
+              id="categoria"
+              placeholder='selecione'
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              disabled
+            >
+              <option value=""></option>
+              {categorias?.map((item, index) => (
+                  <option value={item.id}>{item.nome}</option>
+                  ))}
+            </select>
+          </FormGroup>
+        </Col>
+        <Col>
           <Button onClick={handleSubmit}>Cadastrar</Button>
+          <Button onClick={handleClick}>Cancelar</Button>
+        </Col>
       </Row>}
     </>
   );
