@@ -1,24 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import App from "./App";
 
-import "bootstrap/dist/css/bootstrap.css";
-import "assets/scss/paper-dashboard.scss?v=1.3.0";
-import "assets/demo/demo.css";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
+const root = createRoot(document.querySelector("#root"))
 
-import AdminLayout from "layouts/Admin.js";
-import Login from "views/Login";
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path="/admin/*" element={<AdminLayout />} />
-      
-    </Routes>
-  </BrowserRouter>
-);
+root.render(<App/>)
