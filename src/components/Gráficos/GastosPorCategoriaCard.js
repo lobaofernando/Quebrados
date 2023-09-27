@@ -64,8 +64,8 @@ function GastosPorCategoriaCard() {
                 <CardTitle tag="h5">Gastos por categoria</CardTitle>
                 <p className="card-category">Últimos 30 dias</p>
             </CardHeader>
-            <CardBody style={{ height: "380px" }}>
-                <div style={{ height: "100%" }}>
+            <CardBody style={{ minHeight: "400px" }}>
+                <div style={{ minHeight: "400px" }}>
                     <Pie data={data} options={options} />
                 </div>
             </CardBody>
