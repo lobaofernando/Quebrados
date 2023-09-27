@@ -25,7 +25,7 @@ function Logoff() {
     localStorage.removeItem('refreshToken')
     // redirecionar para a tela desejada em caso de login bem sucedido
     console.log(localStorage); 
-    navigate('/admin/login');
+    navigate('/login');
   };
 
   return (
