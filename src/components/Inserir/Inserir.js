@@ -47,7 +47,7 @@ function Inserir(props) {
     };
 
     fetchData();
-  });
+  }, []);
 
   const [renderizarCadastro, setRenderizarCadastro] = useState(false);
 
