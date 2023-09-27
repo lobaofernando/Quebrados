@@ -14,12 +14,16 @@ function GridItem(item) {
     
     return formattedValue;
   };
+
+  const onDelete = (ID) => {
+    // Implemente a lógica de exclusão do item com o ID fornecido
+  };
   
   console.log(item);
   return (
     <tr>
       <td>{item.item.nome}</td>
-      <td>{item.item.nomeCategiria}</td>
+      {item.item.tipo==1 ? <td>Entrada</td> : <td>{item.item.nomeCategoria}</td>}
       <td  className="text-center">
         {item.item.tipo === 1 ? (
           <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" color="green" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style={{color: "green"}}>

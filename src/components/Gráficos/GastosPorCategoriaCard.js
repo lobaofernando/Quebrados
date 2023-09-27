@@ -4,51 +4,56 @@ import { Pie } from "react-chartjs-2";
 
 function GastosPorCategoriaCard() {
     const [itens, setItens] = useState([]);
-    const [categorias, setCategorias] = useState([]);
-    const currentPage = 1; // Defina o valor correto para currentPage
+    const currentPage = 1;
+
+    // Array de cores
+    const colors = ["#FF5733", "#FFC300", "#FF3333", "#A0A0A0", "#33FF57", "#3357FF", "#FF33F6", "#FF8C33"];
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+                const token = localStorage.getItem("accessToken");
                 const headers = {
                     mode: "no-cors",
                     Authorization: `Bearer ${token}`,
                 };
 
                 const response = await fetch(
-                    `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?pagina=${currentPage}`,
+                    `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?tipo=2&pagina=${currentPage}`,
                     { headers }
                 );
                 const data = await response.json();
                 setItens(data);
-                console.log(data);
             } catch (error) {
                 console.log(error);
             }
         };
 
         fetchData();
-    }, [currentPage]); // Certifique-se de incluir currentPage como uma dependência
+    }, [currentPage]);
+
+    const labels = itens.map(item => item.nomeCategoria);
+    const dataValues = itens.map(item => item.valor);
+    const backgroundColors = itens.map((_, index) => colors[index % colors.length]); // Associa cada categoria a uma cor
 
     const data = {
-        labels: ["Comida", "Aluguel", "Lazer", "Educação"], // Rótulos para as fatias do gráfico
+        labels: labels,
         datasets: [
             {
-                data: [30, 40, 20, 10], // Valores correspondentes às fatias do gráfico
-                backgroundColor: ["#FF5733", "#FFC300", "#FF3333", "#A0A0A0"], // Cores para cada fatia
+                data: dataValues,
+                backgroundColor: backgroundColors,
             },
         ],
     };
 
     const options = {
-        maintainAspectRatio: false, // Define se o gráfico deve manter a proporção
-        responsive: true, // Torna o gráfico responsivo
+        maintainAspectRatio: false,
+        responsive: true,
         legend: {
-            display: true, // Exibe a legenda
-            position: "bottom", // Posição da legenda (top, bottom, left, right)
+            display: true,
+            position: "bottom",
             labels: {
-                fontColor: "black", // Cor do texto da legenda
+                fontColor: "black",
             },
         },
     };
@@ -59,17 +64,18 @@ function GastosPorCategoriaCard() {
                 <CardTitle tag="h5">Gastos por categoria</CardTitle>
                 <p className="card-category">Últimos 30 dias</p>
             </CardHeader>
-            <CardBody style={{ height: "380px" }}> {/* Ajuste a altura aqui */}
-                <div style={{ height: "100%" }}> {/* Ajuste a altura do contêiner do gráfico */}
+            <CardBody style={{ height: "380px" }}>
+                <div style={{ height: "100%" }}>
                     <Pie data={data} options={options} />
                 </div>
             </CardBody>
             <CardFooter>
                 <div className="legend">
-                    <i className="fa fa-circle text-primary" /> Comida{" "}
-                    <i className="fa fa-circle text-warning" /> Aluguel{" "}
-                    <i className="fa fa-circle text-danger" /> Lazer{" "}
-                    <i className="fa fa-circle text-gray" /> Educação{" "}
+                    {itens.map((item, index) => (
+                        <span key={index}>
+                            <i className="fa fa-circle" style={{ color: colors[index % colors.length] }} /> {item.nomeCategoria}{" "}
+                        </span>
+                    ))}
                 </div>
             </CardFooter>
         </Card>

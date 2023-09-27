@@ -20,10 +20,6 @@ function Tabela(props) {
   const [itens, setItens] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const onDelete = (ID) => {
-    // Implemente a lógica de exclusão do item com o ID fornecido
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,23 +54,13 @@ function Tabela(props) {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const [renderizarCadastro, setRenderizarCadastro] = useState(false);
-
-  const handleClick = () => {
-    if (renderizarCadastro) {
-      setRenderizarCadastro(false);
-    } else {
-      setRenderizarCadastro(true);
-    }
-  };
-
   return (
     <>
         <Col md="6">
           <Card>
           <CardHeader>
             {props.tipo==1 ? <CardTitle tag="h4">Entradas</CardTitle> : <CardTitle tag="h4">Saídas</CardTitle>}
-            <Inserir/>
+            <Inserir tipo={props.tipo}/>
             </CardHeader>
             <CardBody>
               <div style={{minHeight:"400px"}}>
