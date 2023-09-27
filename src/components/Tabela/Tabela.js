@@ -74,7 +74,7 @@ function Tabela(props) {
           <Card>
           <CardHeader>
             {props.tipo==1 ? <CardTitle tag="h4">Entradas</CardTitle> : <CardTitle tag="h4">Saídas</CardTitle>}
-            <Inserir/>
+            <Inserir tipo={props.tipo}/>
             </CardHeader>
             <CardBody>
               <div style={{minHeight:"400px"}}>

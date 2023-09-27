@@ -71,15 +71,18 @@ function Inserir(props) {
     console.log(`tipo: ${props.tipo}`);
 
     const dados = {
-      name: descricao,
+      nome: descricao,
       categoriaId: categoria,
-      valor: valor,
+      valor: parseFloat(valor),
       tipo: props.tipo,
     };
 
+    const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
     const requestOptions = {
       headers: {
         'Content-Type': 'application/json-patch+json',
+        mode: `no-cors`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
