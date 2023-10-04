@@ -31,7 +31,7 @@ function BalancoCard() {
                 }
 
                 const responseData = await response.json();
-                setData(responseData.map((item, index) => ({
+                setData(responseData?.map((item, index) => ({
                     x: item.nome,
                     y: item.valor,
                     nomeCategoria: item.nomeCategoria,
@@ -73,7 +73,7 @@ function BalancoCard() {
                                     fill: false,
                                 },
                             ],
-                            labels: data.map(item => item.x),
+                            labels: data?.map(item => item.x),
                         }}
                         options={{
                             maintainAspectRatio: false,
@@ -96,7 +96,7 @@ function BalancoCard() {
             </CardBody>
             <CardFooter>
                 <div className="legend">
-                    {data.map((item, index) => (
+                    {data?.map((item, index) => (
                         <span key={index}>
                             <i className="fa fa-circle" style={{ color: item.borderColor }} /> {item.nomeCategoria}{" "}
                         </span>
