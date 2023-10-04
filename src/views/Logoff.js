@@ -25,7 +25,7 @@ function Logoff() {
     localStorage.removeItem('refreshToken')
     // redirecionar para a tela desejada em caso de login bem sucedido
     console.log(localStorage); 
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -46,7 +46,6 @@ function Logoff() {
                     <Button
                       className="btn-round"
                       color="default"
-                      href="#"
                       onClick={() => handleLogoff()}
                     >
                       Sair...
