@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
@@ -37,7 +37,7 @@ function Login() {
       localStorage.setItem('accessTokenExpiration', data.accessTokenExpiration)
       localStorage.setItem('refreshToken', data.refreshToken)
       // redirecionar para a tela desejada em caso de login bem sucedido
-      window.location.href = '/admin/dashboard';
+      Navigate('/admin/dashboard');
     } else {
       // definir o estado de erro em caso de login mal sucedido
       setLoginError(true);
