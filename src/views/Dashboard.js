@@ -117,7 +117,35 @@ function Dashboard() {
             <GastosPorCategoriaCard></GastosPorCategoriaCard>
           </Col>
           <Col md="8">
-            <BalancoCard></BalancoCard>
+            {/* <BalancoCard></BalancoCard> */}
+            <Card className="card-chart">
+            <CardHeader>
+                <CardTitle tag="h5">Balanço</CardTitle>
+                <p className="card-category">Balanço de Entradas e saídas nos últimos 30 dias</p>
+            </CardHeader>
+            <CardBody>
+                <Line
+                    data={dashboardNASDAQChart.data}
+                    options={dashboardNASDAQChart.options}
+                    width={400}
+                    height={100}
+                />
+            </CardBody>
+            <CardFooter>
+                <div className="chart-legend">
+                    <i className="fa fa-circle text-info" /> Balanço{" "}
+                </div>
+                <hr />
+                <div className="card-stats">
+                    <p>
+                        <i className="fa fa-calendar" /> Última atualização: 10 de Setembro de 2023
+                    </p>
+                    <p>
+                        <i className="fa fa-money" /> Saldo atual: R$ 5,000
+                    </p>
+                </div>
+            </CardFooter>
+        </Card>
           </Col>
         </Row>
         <Row>

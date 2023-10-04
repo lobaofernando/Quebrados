@@ -20,45 +20,8 @@ function BalancoCard() {
         nomeCategoria: item.nomeCategoria,
         borderColor: colors[index % colors.length]
     }));
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-                const headers = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                };
 
-                const response = await fetch("https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastosTrintaDias", {
-                    method: "POST",
-                    headers: headers,
-                });
-
-                if (!response.ok) {
-                    console.error("Erro na requisição", response);
-                    return;
-                }
-
-                const responseData = await response.json();
-                setData(responseData?.map((item, index) => ({
-                    x: item.nome,
-                    y: item.valor,
-                    nomeCategoria: item.nomeCategoria,
-                    borderColor: colors[index % colors.length]
-                })));
-                if (responseData[0]?.data) {
-                    const date = new Date(responseData[0].data);
-                    setLastUpdate(date.toLocaleDateString());
-                }
-                setBalance(responseData.reduce((acc, item) => acc + item.valor, 0));
-                setLoading(false);
-            } catch (error) {
-                console.error("Erro ao buscar dados", error);
-                setLoading(false);
-            }
-        };
-
-    const balance = 890; // Alterado para 890
+    const balance = mockData.reduce((acc, item) => acc + item.valor, 0);
     const formattedBalance = balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     const lastUpdate = new Date().toLocaleDateString();
 
@@ -79,7 +42,6 @@ function BalancoCard() {
                                     fill: false,
                                 },
                             ],
-                            labels: data?.map(item => item.x),
                             labels: formattedData.map(item => item.x),
                         }}
                         options={{
