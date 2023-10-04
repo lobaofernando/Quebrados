@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./login/Login";
+// import Login from "./login/Login";
+import Login from "./views/Login"
 import CadastroUsuario from "./cadastro/CadastroUsuario";
 import AdminLayout from "layouts/Admin.js";
 import "bootstrap/dist/css/bootstrap.css";
