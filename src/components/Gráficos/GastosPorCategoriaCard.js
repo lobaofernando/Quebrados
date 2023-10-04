@@ -1,40 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card, CardHeader, CardBody, CardTitle, CardFooter } from "reactstrap";
 import { Pie } from "react-chartjs-2";
 
 function GastosPorCategoriaCard() {
-    const [itens, setItens] = useState([]);
-    const currentPage = 1;
+    // Dados fictícios
+    const mockData = [
+        { nomeCategoria: "Alimentação", valor: 500 },
+        { nomeCategoria: "Transporte", valor: 300 },
+        { nomeCategoria: "Lazer", valor: 200 },
+        { nomeCategoria: "Saúde", valor: 100 },
+    ];
 
     // Array de cores
     const colors = ["#FF5733", "#FFC300", "#FF3333", "#A0A0A0", "#33FF57", "#3357FF", "#FF33F6", "#FF8C33"];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-                const headers = {
-                    mode: "no-cors",
-                    Authorization: `Bearer ${token}`,
-                };
-
-                const response = await fetch(
-                    `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?tipo=2&pagina=${currentPage}`,
-                    { headers }
-                );
-                const data = await response.json();
-                setItens(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchData();
-    }, [currentPage]);
-
-    const labels = itens.map(item => item.nomeCategoria);
-    const dataValues = itens.map(item => item.valor);
-    const backgroundColors = itens.map((_, index) => colors[index % colors.length]); // Associa cada categoria a uma cor
+    const labels = mockData.map(item => item.nomeCategoria);
+    const dataValues = mockData.map(item => item.valor);
+    const backgroundColors = mockData.map((_, index) => colors[index % colors.length]);
 
     const data = {
         labels: labels,
@@ -58,6 +40,9 @@ function GastosPorCategoriaCard() {
         },
     };
 
+    // Data de última atualização (por exemplo, a data atual)
+    const lastUpdate = new Date().toLocaleDateString();
+
     return (
         <Card>
             <CardHeader>
@@ -71,11 +56,17 @@ function GastosPorCategoriaCard() {
             </CardBody>
             <CardFooter>
                 <div className="legend">
-                    {itens.map((item, index) => (
+                    {mockData.map((item, index) => (
                         <span key={index}>
                             <i className="fa fa-circle" style={{ color: colors[index % colors.length] }} /> {item.nomeCategoria}{" "}
                         </span>
                     ))}
+                </div>
+                <hr />
+                <div className="card-stats">
+                    <p>
+                        <i className="fa fa-calendar" /> Última atualização: {lastUpdate}
+                    </p>
                 </div>
             </CardFooter>
         </Card>

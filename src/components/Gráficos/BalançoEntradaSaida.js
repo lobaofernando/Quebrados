@@ -1,60 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardHeader, CardBody, CardTitle, CardFooter } from "reactstrap";
 import { Line } from "react-chartjs-2";
 
 function BalancoCard() {
-    const [data, setData] = useState(null);
-    const [lastUpdate, setLastUpdate] = useState("");
-    const [balance, setBalance] = useState(0);
-    const [loading, setLoading] = useState(true);
+    // Dados fictícios
+    const mockData = [
+        { nome: "Dia 1", valor: 100, nomeCategoria: "Alimentação" },
+        { nome: "Dia 2", valor: 200, nomeCategoria: "Transporte" },
+        { nome: "Dia 3", valor: 150, nomeCategoria: "Lazer" },
+        { nome: "Dia 4", valor: 250, nomeCategoria: "Saúde" },
+    ];
 
     // Array de cores
     const colors = ["#FF5733", "#FFC300", "#FF3333", "#A0A0A0", "#33FF57", "#3357FF", "#FF33F6", "#FF8C33"];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem("accessToken");
-                const headers = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                };
+    const formattedData = mockData.map((item, index) => ({
+        x: item.nome,
+        y: item.valor,
+        nomeCategoria: item.nomeCategoria,
+        borderColor: colors[index % colors.length]
+    }));
 
-                const response = await fetch("https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastosTrintaDias", {
-                    method: "POST",
-                    headers: headers,
-                });
-
-                if (!response.ok) {
-                    console.error("Erro na requisição", response);
-                    return;
-                }
-
-                const responseData = await response.json();
-                setData(responseData.map((item, index) => ({
-                    x: item.nome,
-                    y: item.valor,
-                    nomeCategoria: item.nomeCategoria,
-                    borderColor: colors[index % colors.length]
-                })));
-                if (responseData[0]?.data) {
-                    const date = new Date(responseData[0].data);
-                    setLastUpdate(date.toLocaleDateString());
-                }
-                setBalance(responseData.reduce((acc, item) => acc + item.valor, 0));
-                setLoading(false);
-            } catch (error) {
-                console.error("Erro ao buscar dados", error);
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    if (loading) return <p>Carregando...</p>;
-
+    const balance = 890; // Alterado para 890
     const formattedBalance = balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const lastUpdate = new Date().toLocaleDateString();
 
     return (
         <Card className="card-chart">
@@ -68,12 +37,12 @@ function BalancoCard() {
                         data={{
                             datasets: [
                                 {
-                                    data: data,
+                                    data: formattedData,
                                     borderColor: colors, // Definindo cores dinamicamente
                                     fill: false,
                                 },
                             ],
-                            labels: data.map(item => item.x),
+                            labels: formattedData.map(item => item.x),
                         }}
                         options={{
                             maintainAspectRatio: false,
@@ -96,7 +65,7 @@ function BalancoCard() {
             </CardBody>
             <CardFooter>
                 <div className="legend">
-                    {data.map((item, index) => (
+                    {formattedData.map((item, index) => (
                         <span key={index}>
                             <i className="fa fa-circle" style={{ color: item.borderColor }} /> {item.nomeCategoria}{" "}
                         </span>
