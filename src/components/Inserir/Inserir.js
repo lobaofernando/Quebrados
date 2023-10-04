@@ -63,10 +63,10 @@ function Inserir(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (categoria == '' && props.tipo==2) {
-      alert('Selecione uma categoria!');
-      return;
-    }
+    // if (categoria == '' && props.tipo==2) {
+    //   alert('Selecione uma categoria!');
+    //   return;
+    // }
     
     if (valor==null || descricao==null) {
       alert('Preencha todos os dados!');
@@ -151,7 +151,6 @@ function Inserir(props) {
               placeholder='selecione'
               value={categoria}
               onChange={(e) => setCategoria(e.target.value)}
-              disabled
             >
               <option value=""></option>
               {categorias?.map((item, index) => (

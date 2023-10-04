@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './CadastroUsuario.css';
+import { Navigate } from 'react-router-dom';
 
 
 function CadastroUsuario() {
@@ -110,6 +111,7 @@ function CadastroUsuario() {
       .post(url, dados, requestOptions)
       .then(() => {
         alert('Usuário Cadastrado!!');
+        Navigate('/')
       })
       .catch((erro) => {
         alert(erro);
