@@ -19,30 +19,50 @@ import Inserir from 'components/Inserir/Inserir';
 function Tabela(props) {
   const [itens, setItens] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+      const headers = {
+        mode: `no-cors`,
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await fetch(
+        `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?tipo=${props.tipo}&pagina=${currentPage}`,
+        { headers }
+      );
+      const data = await response.json();
+      setItens(data);
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
-        const headers = {
-          mode: `no-cors`,
-          Authorization: `Bearer ${token}`,
-        };
-
-        const response = await fetch(
-          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?tipo=${props.tipo}&pagina=${currentPage}`,
-          { headers }
-        );
-        const data = await response.json();
-        setItens(data);
-        console.log(data)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchData();
   }, [currentPage]);
+
+  const onDelete = async (id) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      // Faça uma requisição para excluir o item com o ID fornecido
+      await fetch(`https://artemiswebapi.azurewebsites.net/api/Categoria/RemoverGasto?GastoId=${id}`, {
+        method: 'DELETE',
+        headers: headers,
+      });
+
+      // Após excluir, atualize os itens
+      fetchData();
+    } catch (error) {
+      console.error("Erro ao excluir o gasto", error);
+    }
+  };
 
   const goToPreviousPage = () => {
     if (currentPage > 1) {
@@ -71,12 +91,17 @@ function Tabela(props) {
                     <th>Categoria</th>
                     <th className="text-center">Tipo</th>
                     <th className="text-center">Valor</th>
+                    <th className="text-center">Data</th>
                     <th className="text-center">Excluir</th>
                   </tr>
                 </thead>
                 <tbody>
                   {itens?.map((item, index) => (
-                    <GridItem key={index} item={item} />
+                    <GridItem 
+                      key={index}
+                      item={item}
+                      onDelete={onDelete}
+                    />
                   ))}
                 </tbody>
               </Table>

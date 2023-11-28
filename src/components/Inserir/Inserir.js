@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-// reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Col,
-  FormGroup,
-  Input,
-  Row,
-  Table,
-} from "reactstrap";
+import CurrencyInput from 'react-currency-input-field';
+import { Button, Col, Container, FormGroup, Input, Row } from 'reactstrap';
 
 function Inserir(props) {
   const [categorias, setCategorias] = useState([]);
   const [descricao, setDescricao] = useState('');
   const [valor, setValor] = useState('');
   const [categoria, setCategoria] = useState('');
+  const [data, setData] = useState('');
 
   const onDelete = (ID) => {
     // Implemente a lógica de exclusão do item com o ID fornecido
@@ -28,19 +17,18 @@ function Inserir(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+        const token = localStorage.getItem('accessToken');
         const headers = {
-          mode: `no-cors`,
           Authorization: `Bearer ${token}`,
         };
 
         const response = await fetch(
-          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterCategorias`,
+          'https://artemiswebapi.azurewebsites.net/api/Categoria/ObterCategorias',
           { headers }
         );
         const data = await response.json();
         setCategorias(data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -52,8 +40,10 @@ function Inserir(props) {
   const [renderizarCadastro, setRenderizarCadastro] = useState(false);
 
   const handleClick = () => {
-    setDescricao(null);
-    setValor(null);
+    setDescricao('');
+    setValor('');
+    setCategoria('');
+    setData('');
     if (renderizarCadastro) {
       setRenderizarCadastro(false);
     } else {
@@ -63,42 +53,30 @@ function Inserir(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // if (categoria == '' && props.tipo==2) {
-    //   alert('Selecione uma categoria!');
-    //   return;
-    // }
-    
-    if (valor==null || descricao==null) {
+
+    if (!valor || !descricao || !data) {
       alert('Preencha todos os dados!');
       return;
     }
 
-    console.log(`decrição: ${descricao}`);
-    console.log(`categoria: ${categoria}`);
-    console.log(`valor: ${valor}`);
-    console.log(`tipo: ${props.tipo}`);
-
-    var dados = {
+    const dados = {
       nome: descricao,
-      categoriaId: categoria,
-      valor: parseFloat(valor),
+      categoriaId: categoria || null,
+      valor: parseFloat(valor.replace(/[^\d]/g, '')) / 100, // Convertendo a moeda para número
       tipo: props.tipo,
+      data: new Date(data).toISOString(),
     };
 
-    if (categoria=="") {
-      dados["categoriaId"] = null;
-    }
-
-    const token = localStorage.getItem("accessToken"); // Substitua pelo seu token de autorização válido
+    const token = localStorage.getItem('accessToken');
     const requestOptions = {
       headers: {
         'Content-Type': 'application/json-patch+json',
-        mode: `no-cors`,
         Authorization: `Bearer ${token}`,
       },
     };
 
-    const url = 'https://artemiswebapi.azurewebsites.net/api/Categoria/InserirGasto';
+    const url =
+      'https://artemiswebapi.azurewebsites.net/api/Categoria/InserirGasto';
 
     axios
       .post(url, dados, requestOptions)
@@ -114,56 +92,96 @@ function Inserir(props) {
   return (
     <>
       {!renderizarCadastro && <Button onClick={handleClick}>+</Button>}
-      
-      {renderizarCadastro && 
-      <Row>
-        <Col className="pr-1" md="4">
-          <FormGroup>
-            <label>Descrição</label>
-            <Input
-              type="text"
-              id="descricao"
-              value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
-              maxLength="35"
-              required
-            />
-          </FormGroup>
-        </Col>
-        <Col className="px-1" md="4">
-          <FormGroup>
-            <label>Valor</label>
-            <Input
-              placeholder="R$ 50,00"
-              type="currency"
-              id="valor"
-              value={valor}
-              onChange={(e) => setValor(e.target.value)}
-              required
-            />
-          </FormGroup>
-        </Col>
-        <Col className="pl-1" md="4">
-          <FormGroup>
-            <label>Categoria</label>
-            <select class="form-group form-control"
-              id="categoria"
-              placeholder='selecione'
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
-            >
-              <option value=""></option>
-              {categorias?.map((item, index) => (
-                  <option value={item.id}>{item.nome}</option>
+
+      {renderizarCadastro && (
+        <Container>
+          <Row>
+            <Col className="pr-1" md="4">
+              <FormGroup>
+                <label>Descrição</label>
+                <Input
+                  type="text"
+                  id="descricao"
+                  value={descricao}
+                  onChange={(e) => setDescricao(e.target.value)}
+                  maxLength="35"
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col className="px-1" md="4">
+              <FormGroup>
+                <label>Valor</label>
+                <CurrencyInput
+                  prefix="R$ "
+                  decimalSeparator=","
+                  groupSeparator="."
+                  allowNegativeValue={false}
+                  decimalsLimit={2}
+                  placeholder="R$ 50,00"
+                  value={valor}
+                  onValueChange={(value) => setValor(value)}
+                  required
+                  style={{
+                    fontFamily: "Montserrat, Helvetica Neue, Arial, sans-serif",
+                    display: "block",
+                    width: "100%",
+                    fontWeight: 400,
+                    backgroundClip: "padding-box",
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid #DDDDDD",
+                    borderRadius: "4px",
+                    color: "#66615b",
+                    lineHeight: "normal",
+                    fontSize: "14px",
+                    transition: "color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out",
+                    boxShadow: "none",
+                    height: "initial",
+                    padding: "10px",
+                  }}
+                />
+              </FormGroup>
+            </Col>
+            <Col className="px-1" md="4">
+              <FormGroup>
+                <label>Data</label>
+                <Input
+                  type="date"
+                  id="data"
+                  value={data}
+                  onChange={(e) => setData(e.target.value)}
+                  required
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row className="d-flex align-items-end">
+            <Col className="pr-1" md="4">
+              <FormGroup>
+                <label>Categoria</label>
+                <select
+                  className="form-group form-control"
+                  id="categoria"
+                  placeholder="selecione"
+                  value={categoria}
+                  onChange={(e) => setCategoria(e.target.value)}
+                >
+                  <option value=""></option>
+                  {categorias?.map((item, index) => (
+                    <option key={index} value={item.id}>
+                      {item.nome}
+                    </option>
                   ))}
-            </select>
-          </FormGroup>
-        </Col>
-        <Col>
-          <Button onClick={handleSubmit}>Cadastrar</Button>
-          <Button onClick={handleClick}>Cancelar</Button>
-        </Col>
-      </Row>}
+                </select>
+              </FormGroup>
+            </Col>
+            <Col className="px-1" md="8">
+              <Button onClick={handleSubmit}>Cadastrar</Button>
+              <Button onClick={handleClick}>Cancelar</Button>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 }
