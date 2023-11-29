@@ -63,9 +63,9 @@ const GastosAno = () => {
               {
                 data: array[1],
                 fill: false,
-                borderColor: "#FFA500",
+                borderColor: "#3CD160",
                 backgroundColor: "transparent",
-                pointBorderColor: "#FFA500",
+                pointBorderColor: "#3CD160",
                 pointRadius: 0.5,
                 pointHoverRadius: 6,
                 pointBorderWidth: 8,
