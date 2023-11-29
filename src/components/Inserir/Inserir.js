@@ -64,7 +64,7 @@ function Inserir(props) {
       categoriaId: categoria || null,
       valor: valor, // Convertendo a moeda para número
       tipo: props.tipo,
-      data: new Date(data).toISOString(),
+      dataDoGasto: new Date(data).toISOString(),
     };
 
     const token = localStorage.getItem('accessToken');
@@ -83,6 +83,7 @@ function Inserir(props) {
       .then(() => {
         alert('Transação registrada!!');
         setRenderizarCadastro(false);
+        window.location.reload();
       })
       .catch((erro) => {
         alert(erro);

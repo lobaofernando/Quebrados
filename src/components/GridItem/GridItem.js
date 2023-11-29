@@ -13,7 +13,10 @@ function GridItem({ item, onDelete }) {
 
   // Função para formatar a data
   const formatDate = (date) => {
-    return format(new Date(date), "dd/MM/yyyy");
+    console.log(date);
+    console.log(date.slice(0, 10));
+    //return format(new Date(date.slice(0, 10)), "dd/MM/yyyy");
+    return date;
   };
 
   return (
@@ -32,7 +35,7 @@ function GridItem({ item, onDelete }) {
         )}
       </td>
       <td className="text-center">{formatValue(item.valor)}</td>
-      <td className="text-center">{formatDate(item.data)}</td>  {/* Utilize a função formatDate */}
+      <td className="text-center">{item.dataVerdadeira}</td>  {/* Utilize a função formatDate */}
       <td className="text-right">
         <Button onClick={() => onDelete(item.id)}>
             <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg>
