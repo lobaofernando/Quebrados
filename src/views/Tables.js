@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import GridItem from "components/GridItem/GridItem";
 
 // reactstrap components
@@ -36,7 +36,7 @@ function Tables() {
         );
         const data = await response.json();
         setItens(data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -62,7 +62,7 @@ function Tables() {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <CardTitle tag="h4">Extrato</CardTitle>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -79,7 +79,12 @@ function Tables() {
                       <GridItem key={index} item={item} />
                     ))}
                   </tbody>
-                  <Button onClick={goToPreviousPage}>Anterior</Button>
+                  <Button
+                    style={{ marginRight: "10px" }}
+                    onClick={goToPreviousPage}
+                  >
+                    Anterior
+                  </Button>
                   <Button onClick={goToNextPage}>Próxima</Button>
                 </Table>
               </CardBody>
