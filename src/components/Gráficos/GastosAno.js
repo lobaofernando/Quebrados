@@ -4,6 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, CardTitle, Col } from "reactstr
 
 const GastosAno = () => {
   const [array, setArray] = useState([]);
+  const [array2, setArray2] = useState([]);
 
   useEffect(() => {
     const obterDados = async () => {
@@ -18,13 +19,25 @@ const GastosAno = () => {
           { headers }
         );
 
+        const response2 = await fetch(
+          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastosDoAno?ano=2023&tipo=2`,
+          { headers }
+        );
+
         const data = await response.json();
+
+        const data2 = await response2.json();
 
         // Transformar os dados no formato esperado pelo Chart.js
         const chaves = Object.keys(data);
         const valores = Object.values(data);
 
         setArray([chaves, valores]);
+
+        const chaves2 = Object.keys(data2);
+        const valores2 = Object.values(data2);
+
+        setArray2([chaves2, valores2]);
 
         // Opcionalmente, realizar outras ações aqui
         console.log(data);
@@ -51,11 +64,23 @@ const GastosAno = () => {
               labels: array[0],
               datasets: [
                 {
+                  label : "Entradas",
                   data: array[1],
                   fill: false,
                   borderColor: "#3CD160",
                   backgroundColor: "transparent",
                   pointBorderColor: "#3CD160",
+                  pointRadius: 0.5,
+                  pointHoverRadius: 6,
+                  pointBorderWidth: 8,
+                },
+                {
+                  label: "Saidas",
+                  data: array2[1],
+                  fill: false,
+                  borderColor: "red",
+                  backgroundColor: "transparent",
+                  pointBorderColor: "red",
                   pointRadius: 0.5,
                   pointHoverRadius: 6,
                   pointBorderWidth: 8,
