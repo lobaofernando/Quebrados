@@ -62,7 +62,7 @@ function Inserir(props) {
     const dados = {
       nome: descricao,
       categoriaId: categoria || null,
-      valor: parseFloat(valor.replace(/[^\d]/g, '')) / 100, // Convertendo a moeda para número
+      valor: valor, // Convertendo a moeda para número
       tipo: props.tipo,
       data: new Date(data).toISOString(),
     };
