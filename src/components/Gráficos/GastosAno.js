@@ -34,14 +34,7 @@ const GastosAno = () => {
             console.log(error);
             }
         };
-
-    const criarArray = (gastos) => {
-        const chaves = Object.keys(gastos);
-        const valores = Object.values(gastos);
-
-        setArray([chaves, valores]);
-    }
-
+        
     const arrayAno = {
         data: (canvas) => {
           return {
@@ -61,6 +54,7 @@ const GastosAno = () => {
               ],
             datasets: [
               {
+                label: "Gastos",
                 data: array[1],
                 fill: false,
                 borderColor: "#3CD160",
@@ -82,13 +76,18 @@ const GastosAno = () => {
     
       useEffect(() => {
         const obterDados = async () => {
-          await obterGastosAno();
-          criarArray(gastos);
+          try {
+            await obterGastosAno();
+            const chaves = Object.keys(gastos);
+            const valores = Object.values(gastos);
+            setArray([chaves, valores]);
+          } catch (error) {
+            console.log(error);
+          }
         };
       
         obterDados();
-      }, [gastos]);
-      
+      }, []);
 
     const lastUpdate = new Date().toLocaleDateString();
 
