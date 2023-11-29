@@ -2,38 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardBody, CardTitle, CardFooter, Col, Row } from 'reactstrap';
 
 const Balanco = () => {
-  const [gastos, setGastos] = useState(0);
+  const [gastos, setGastos] = useState([]);
   const [saldo, setSaldo] = useState(0);
   const [entradas, setEntradas] = useState(0);
   const [saidas, setSaidas] = useState(0);
 
-  useEffect(() => {
-    // Lógica para calcular o balanço com base nos dados disponíveis
-    const calcularBalanco = async () => {
-      try {
-        const token = localStorage.getItem('accessToken');
-        const headers = {
-          mode: 'no-cors',
-          Authorization: `Bearer ${token}`,
-        };
+  const calcularBalanco = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const headers = {
+        mode: 'no-cors',
+        Authorization: `Bearer ${token}`,
+      };
 
-        const response = await fetch(
-          `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?pagina=0`,
-          { headers }
-        );
-        const data = await response.json();
-        setGastos(data);
-        console.log("ronaldo")
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    calcularBalanco();
-    calcularTotais(gastos);
-  });
-
+      const response = await fetch(
+        `https://artemiswebapi.azurewebsites.net/api/Categoria/ObterGastos?pagina=0`,
+        { headers }
+      );
+      const data = await response.json();
+      setGastos(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const calcularTotais = (itens) => {
     if (!itens || !itens.length) {
       console.error("A variável 'itens' está vazia ou não é uma array.");
@@ -60,11 +53,19 @@ const Balanco = () => {
         continue; // Pula para a próxima iteração se encontrar um tipo de item desconhecido
       }
     }
-  
     setSaldo(totalEntradas - totalSaidas);
     setSaidas(totalSaidas);
     setEntradas(totalEntradas);
   };
+
+  useEffect(() => {
+    calcularBalanco();
+  }, []);
+
+  useEffect(() => {
+    calcularTotais(gastos);
+  }, [gastos]);
+  
 
   const formatValue = (value) => {
     const formattedValue = new Intl.NumberFormat("pt-br", {
